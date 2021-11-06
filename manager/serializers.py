@@ -60,7 +60,7 @@ class EmployeeSerializerPost(serializers.ModelSerializer):
             )
     def get_employee_first_name(self,obj):
         return obj.employee_first_name.upper()
-    def get_eemployee_last_name(self,obj):
+    def get_employee_last_name(self,obj):
         return obj.employee_last_name.upper()
     def get_employee_email(self,obj):
         return obj.employee_email.upper()
