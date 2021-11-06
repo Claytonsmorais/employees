@@ -18,7 +18,7 @@ class Employee(models.Model):
     employee_id = models.AutoField(primary_key=True)
     employee_first_name = models.CharField(max_length=1000,null=False,blank=False)
     employee_last_name = models.CharField(max_length=2000, null = False,blank=False)
-    employee_email = models.EmailField(max_length=5000, null=True, blank=False)
+    employee_email = models.EmailField(max_length=5000, null=True, blank=False,unique=True)
     department= models.ForeignKey(
         Department,on_delete=models.DO_NOTHING
     )
