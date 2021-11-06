@@ -12,10 +12,11 @@ from django.db.models import Q
 class APIRootView(APIView):
     def get(self, request):
         data = {
-            'employees': reverse('employees-api', request=request),
-            'department-api': reverse('department-api', request=request),
+            'employees-api': reverse('employees-api', request=request),
+            'departments-api': reverse('departments-api', request=request),
             'jwt-login': reverse('jwt-login', request=request),
             'jwt-refresh': reverse('jwt-refresh', request=request),
+            'search-employee': reverse('search-employee', request=request),
         }
         return Response(data)
 
