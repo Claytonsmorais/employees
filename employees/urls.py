@@ -34,5 +34,5 @@ urlpatterns = [
     path('api/employees/<int:pk>', EmployeeDetailViewSet.as_view(),name='employee-detail-api'),
     path('api/login', obtain_jwt_token,name='jwt-login'),
     path('api/refresh-token', refresh_jwt_token,name='jwt-refresh'),
-    path('api/employees/search/<str:term>', refresh_jwt_token,name='jwt-refresh'),
+    path('api/employees/search/<str:term>', EmployeeSearchViewSet.as_view(),name='search-employee'),
 ]
