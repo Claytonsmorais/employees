@@ -16,7 +16,7 @@ class APIRootView(APIView):
             'departments-api': reverse('departments-api', request=request),
             'jwt-login': reverse('jwt-login', request=request),
             'jwt-refresh': reverse('jwt-refresh', request=request),
-            'search-employee': reverse('search-employee', request=request),
+            'search-employee': reverse('search-employee',args=['term'], request=request),
         }
         return Response(data)
 
