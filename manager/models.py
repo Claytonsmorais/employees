@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 class Department(models.Model):
     department_id = models.AutoField(primary_key=True)
@@ -11,6 +12,9 @@ class Department(models.Model):
         User,
         on_delete=models.DO_NOTHING
     )
+    def clean(self):
+        if Department.objects.filter(department_abb__iexact=self.department_abb):
+            raise ValidationError("Department abbreviation already registered")
     def __str__(self):
         return '{} - {} '.format(self.department_abb,self.department_name)
 
@@ -28,5 +32,10 @@ class Employee(models.Model):
         User,
         on_delete=models.DO_NOTHING
     )
+
+    def clean(self):
+        if Employee.objects.filter(employee_email__iexact=self.employee_email):
+            raise ValidationError("Employee email already registered")
+
     def __str__(self):
         return '{} {} ({})'.format(self.employee_first_name,self.employee_last_name,self.department.department_abb)
