@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Department(models.Model):
     department_id = models.AutoField(primary_key=True)
     department_name = models.CharField(max_length=5000,null=False,blank=False)
-    department_abb= models.CharField(max_length=10,null=False,blank=False)
+    department_abb= models.CharField(max_length=10,null=False,blank=False,unique=True)
     is_active = models.BooleanField(null=False,default=True)
     created_at = models.DateTimeField(null=False,auto_now_add=True)
     created_by = models.ForeignKey(
