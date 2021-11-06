@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from manager.viewsets import EmployeeViewSet,DepartmentDetailViewSet,DepartmentViewSet,EmployeeDetailViewSet,APIRootView
+from manager.viewsets import (EmployeeViewSet,
+                              DepartmentDetailViewSet,
+                              DepartmentViewSet,
+                              EmployeeDetailViewSet,
+                              APIRootView,
+                              EmployeeSearchViewSet
+                              )
 from rest_framework_jwt.views import obtain_jwt_token,refresh_jwt_token
 
 urlpatterns = [
@@ -28,4 +34,5 @@ urlpatterns = [
     path('api/employees/<int:pk>', EmployeeDetailViewSet.as_view(),name='employee-detail-api'),
     path('api/login', obtain_jwt_token,name='jwt-login'),
     path('api/refresh-token', refresh_jwt_token,name='jwt-refresh'),
+    path('api/employees/search/<str:term>', refresh_jwt_token,name='jwt-refresh'),
 ]

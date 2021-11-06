@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from manager.permissions import *
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.reverse import reverse
+from django.db.models import Q
 
 class APIRootView(APIView):
     def get(self, request):
@@ -17,6 +18,19 @@ class APIRootView(APIView):
             'jwt-refresh': reverse('jwt-refresh', request=request),
         }
         return Response(data)
+
+class EmployeeSearchViewSet(APIView):
+    authentication_classes = [JSONWebTokenAuthentication]
+    permission_classes = [EmployeePermission]
+    def get(self,request,term):
+        data = Employee.objects.filter(
+            Q(employee_first_name__icontains=term)
+            |
+            Q(employee_last_name__icontains=term)
+        )
+        serial_data = EmployeeSerializer(data,many=True,context={'request': request})
+        return Response(serial_data.data)
+
 
 class EmployeeViewSet(APIView):
     authentication_classes = [JSONWebTokenAuthentication]
