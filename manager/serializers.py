@@ -58,12 +58,12 @@ class EmployeeSerializerPost(serializers.ModelSerializer):
                 'department',
                 'created_by'
             )
-        def get_employee_first_name(self,obj):
-            return obj.employee_first_name.upper()
-        def get_eemployee_last_name(self,obj):
-            return obj.employee_last_name.upper()
-        def get_employee_email(self,obj):
-            return obj.employee_email.upper()
+    def get_employee_first_name(self,obj):
+        return obj.employee_first_name.upper()
+    def get_eemployee_last_name(self,obj):
+        return obj.employee_last_name.upper()
+    def get_employee_email(self,obj):
+        return obj.employee_email.upper()
 
 
 class DepartmentSerializerPost(serializers.ModelSerializer):
