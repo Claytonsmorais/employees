@@ -45,6 +45,9 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class EmployeeSerializerPost(serializers.ModelSerializer):
     created_by=serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     department=serializers.PrimaryKeyRelatedField(queryset=Department.objects.all())
+    employee_first_name = serializers.SerializerMethodField()
+    employee_last_name = serializers.SerializerMethodField()
+    employee_email = serializers.SerializerMethodField()
     class Meta:
         model = Employee
         fields = (
@@ -55,6 +58,12 @@ class EmployeeSerializerPost(serializers.ModelSerializer):
                 'department',
                 'created_by'
             )
+        def get_employee_first_name(self,obj):
+            return obj.employee_first_name.upper()
+        def get_eemployee_last_name(self,obj):
+            return obj.employee_last_name.upper()
+        def get_employee_email(self,obj):
+            return obj.employee_email.upper()
 
 
 class DepartmentSerializerPost(serializers.ModelSerializer):
