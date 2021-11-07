@@ -28,7 +28,7 @@ urlpatterns = [
     path('admin', admin.site.urls),
     path('api-auth', include('rest_framework.urls')),
     path('', APIRootView.as_view()),
-    path('api/employees?', EmployeeViewSet.as_view(),name='employees-api'),
+    path('api/employees', EmployeeViewSet.as_view(),name='employees-api'),
     path('api/departments/<int:pk>', DepartmentDetailViewSet.as_view(),name='department-detail-api'),
     path('api/departments', DepartmentViewSet.as_view(),name='departments-api'),
     path('api/employees/<int:pk>', EmployeeDetailViewSet.as_view(),name='employee-detail-api'),
