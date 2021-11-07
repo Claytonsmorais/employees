@@ -6,8 +6,10 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from manager.permissions import *
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.reverse import reverse
 from django.db.models import Q
+from rest_framework.pagination import PageNumberPagination
 
 class APIRootView(APIView):
     def get(self, request):
@@ -21,26 +23,31 @@ class APIRootView(APIView):
         return Response(data)
 
 class EmployeeSearchViewSet(APIView):
-    authentication_classes = [JSONWebTokenAuthentication]
+    authentication_classes = [JSONWebTokenAuthentication,SessionAuthentication]
     permission_classes = [EmployeePermission]
     def get(self,request,term):
+        paginator = PageNumberPagination()
         data = Employee.objects.filter(
             Q(employee_first_name__icontains=term)
             |
             Q(employee_last_name__icontains=term)
         )
-        serial_data = EmployeeSerializer(data,many=True,context={'request': request})
-        return Response(serial_data.data)
+        result_page = paginator.paginate_queryset(data, request)
+        serial_data = EmployeeSerializer(result_page,many=True,context={'request': request})
+        return paginator.get_paginated_response(serial_data.data)
 
 
 class EmployeeViewSet(APIView):
-    authentication_classes = [JSONWebTokenAuthentication]
+    authentication_classes = [JSONWebTokenAuthentication,SessionAuthentication]
     permission_classes = [EmployeePermission]
+
 
     def get(self,request):
         data = Employee.objects.all()
-        serial_data = EmployeeSerializer(data,many=True,context={'request': request})
-        return Response(serial_data.data)
+        paginator = PageNumberPagination()
+        result_page = paginator.paginate_queryset(data, request)
+        serial_data = EmployeeSerializer(result_page,many=True,context={'request': request})
+        return paginator.get_paginated_response(serial_data.data)
 
     def post(self,request):
         if 'employee_email' in request.data:
@@ -56,11 +63,13 @@ class EmployeeViewSet(APIView):
 
 class DepartmentViewSet(APIView):
     permission_classes = [DepartmentPermission]
-    authentication_classes = [JSONWebTokenAuthentication]
+    authentication_classes = [JSONWebTokenAuthentication,SessionAuthentication]
     def get(self,request):
         data = Department.objects.all()
-        serial_data = DepartmentSerializer(data,many=True,context={'request': request})
-        return Response(serial_data.data)
+        paginator = PageNumberPagination()
+        page_result = paginator.paginate_queryset(data,request)
+        serial_data = DepartmentSerializer(page_result,many=True,context={'request': request})
+        return paginator.get_paginated_response(serial_data.data)
 
     def post(self,request):
         if 'department_abb' in request.data:
@@ -75,7 +84,7 @@ class DepartmentViewSet(APIView):
 
 class DepartmentDetailViewSet(APIView):
     permission_classes = [DepartmentPermission]
-    authentication_classes = [JSONWebTokenAuthentication]
+    authentication_classes = [JSONWebTokenAuthentication,SessionAuthentication]
     def get(self,request,pk):
         data = get_object_or_404(pk=pk,klass=Department)
         serial_data = DepartmentSerializer(data,context={'request': request})
@@ -83,7 +92,7 @@ class DepartmentDetailViewSet(APIView):
 
 class EmployeeDetailViewSet(APIView):
     permission_classes = [EmployeePermission]
-    authentication_classes = [JSONWebTokenAuthentication]
+    authentication_classes = [JSONWebTokenAuthentication,SessionAuthentication]
     def get(self,request,pk):
         data = get_object_or_404(pk=pk,klass=Employee)
         serial_data = EmployeeSerializer(data,context={'request': request})

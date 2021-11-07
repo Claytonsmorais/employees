@@ -13,10 +13,15 @@ class Department(models.Model):
         on_delete=models.DO_NOTHING
     )
     def clean(self):
-        if Department.objects.filter(department_abb__iexact=self.department_abb):
+        if Department.objects.filter(department_abb__iexact=self.department_abb).exclude(
+            department_id=self.department_id
+        ):
             raise ValidationError("Department abbreviation already registered")
     def __str__(self):
         return '{} - {} '.format(self.department_abb,self.department_name)
+
+    class Meta:
+        ordering=['department_id']
 
 class Employee(models.Model):
     employee_id = models.AutoField(primary_key=True)
@@ -34,8 +39,13 @@ class Employee(models.Model):
     )
 
     def clean(self):
-        if Employee.objects.filter(employee_email__iexact=self.employee_email):
+        if Employee.objects.filter(employee_email__iexact=self.employee_email).exclude(
+           employee_id=self.employee_id
+        ):
             raise ValidationError("Employee email already registered")
 
     def __str__(self):
         return '{} {} ({})'.format(self.employee_first_name,self.employee_last_name,self.department.department_abb)
+
+    class Meta:
+        ordering=['employee_id']

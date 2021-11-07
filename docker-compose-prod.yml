@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  web_prod:
+    build: .
+    command: gunicorn employees.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - 8000
+    env_file:
+      - ./.env-prod
+    depends_on:
+      - db_prod
+    networks:
+      main:
+        aliases:
+          - web_prod
+    env_file:
+      - .env-prod
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+  db_prod:
+    image: postgres
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data/
+    env_file:
+      - ./.env-prod-db
+    networks:
+      main:
+        aliases:
+          - db_prod
+  nginx:
+    build: ./nginx
+    ports:
+      - 3000:3000
+    depends_on:
+      - web_prod     
+    networks:
+      main:
+        aliases:
+          - nginx
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles          
+
+volumes:
+  postgres_data_prod:
+  static_volume:
+  media_volume:    
+networks:
+  main:
