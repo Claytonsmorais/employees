@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include,re_path
 from manager.viewsets import (EmployeeViewSet,
                               DepartmentDetailViewSet,
                               DepartmentViewSet,
@@ -25,14 +25,14 @@ from manager.viewsets import (EmployeeViewSet,
 from rest_framework_jwt.views import obtain_jwt_token,refresh_jwt_token
 
 urlpatterns = [
-    path(r'admin/?$', admin.site.urls),
-    path(r'api-auth/?$', include('rest_framework.urls')),
-    path('', APIRootView.as_view()),
-    path(r'api/employees/?$', EmployeeViewSet.as_view(),name='employees-api'),
-    path(r'api/departments/<int:pk>/?$', DepartmentDetailViewSet.as_view(),name='department-detail-api'),
-    path(r'api/departments/?$', DepartmentViewSet.as_view(),name='departments-api'),
-    path(r'api/employees/<int:pk>/?$', EmployeeDetailViewSet.as_view(),name='employee-detail-api'),
-    path(r'api/login/?$', obtain_jwt_token,name='jwt-login'),
-    path(r'api/refresh-token/?$', refresh_jwt_token,name='jwt-refresh'),
-    path(r'api/employees/search/<str:term>/?$', EmployeeSearchViewSet.as_view(),name='search-employee'),
+    re_path(r'admin/?$', admin.site.urls),
+    re_path(r'api-auth/?$', include('rest_framework.urls')),
+    re_path('', APIRootView.as_view()),
+    re_path(r'api/employees/?$', EmployeeViewSet.as_view(),name='employees-api'),
+    re_path(r'api/departments/<int:pk>/?$', DepartmentDetailViewSet.as_view(),name='department-detail-api'),
+    re_path(r'api/departments/?$', DepartmentViewSet.as_view(),name='departments-api'),
+    re_path(r'api/employees/<int:pk>/?$', EmployeeDetailViewSet.as_view(),name='employee-detail-api'),
+    re_path(r'api/login/?$', obtain_jwt_token,name='jwt-login'),
+    re_path(r'api/refresh-token/?$', refresh_jwt_token,name='jwt-refresh'),
+    re_path(r'api/employees/search/<str:term>/?$', EmployeeSearchViewSet.as_view(),name='search-employee'),
 ]
