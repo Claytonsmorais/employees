@@ -34,5 +34,5 @@ urlpatterns = [
     re_path(r'api/employees/<int:pk>\/?', EmployeeDetailViewSet.as_view(),name='employee-detail-api'),
     re_path(r'api/login\/?', obtain_jwt_token,name='jwt-login'),
     re_path(r'api/refresh-token\/?', refresh_jwt_token,name='jwt-refresh'),
-    re_path(r'api/employees/search/<str:term>\/?', EmployeeSearchViewSet.as_view(),name='search-employee'),
+    path(r'api/employees/search/<str:term>', EmployeeSearchViewSet.as_view(),name='search-employee'),
 ]
