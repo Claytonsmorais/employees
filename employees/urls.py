@@ -25,7 +25,7 @@ from manager.viewsets import (EmployeeViewSet,
 from rest_framework_jwt.views import obtain_jwt_token,refresh_jwt_token
 
 urlpatterns = [
-    path('admin', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api-auth', include('rest_framework.urls')),
     path('', APIRootView.as_view()),
     path('api/employees', EmployeeViewSet.as_view(),name='employees-api'),
