@@ -25,14 +25,14 @@ from manager.viewsets import (EmployeeViewSet,
 from rest_framework_jwt.views import obtain_jwt_token,refresh_jwt_token
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path(r'api-auth\/?$', include('rest_framework.urls')),
+    path(r'admin/?$', admin.site.urls),
+    path(r'api-auth/?$', include('rest_framework.urls')),
     path('', APIRootView.as_view()),
-    path(r'api/employees\/?$', EmployeeViewSet.as_view(),name='employees-api'),
-    path(r'api/departments/<int:pk>\/?$', DepartmentDetailViewSet.as_view(),name='department-detail-api'),
-    path(r'api/departments\/?$', DepartmentViewSet.as_view(),name='departments-api'),
-    path(r'api/employees/<int:pk>\/?$', EmployeeDetailViewSet.as_view(),name='employee-detail-api'),
-    path(r'api/login\/?$', obtain_jwt_token,name='jwt-login'),
-    path(r'api/refresh-token\/?$', refresh_jwt_token,name='jwt-refresh'),
-    path(r'api/employees/search/<str:term>\/?$', EmployeeSearchViewSet.as_view(),name='search-employee'),
+    path(r'api/employees/?$', EmployeeViewSet.as_view(),name='employees-api'),
+    path(r'api/departments/<int:pk>/?$', DepartmentDetailViewSet.as_view(),name='department-detail-api'),
+    path(r'api/departments/?$', DepartmentViewSet.as_view(),name='departments-api'),
+    path(r'api/employees/<int:pk>/?$', EmployeeDetailViewSet.as_view(),name='employee-detail-api'),
+    path(r'api/login/?$', obtain_jwt_token,name='jwt-login'),
+    path(r'api/refresh-token/?$', refresh_jwt_token,name='jwt-refresh'),
+    path(r'api/employees/search/<str:term>/?$', EmployeeSearchViewSet.as_view(),name='search-employee'),
 ]
