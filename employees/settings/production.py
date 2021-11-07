@@ -14,6 +14,6 @@ DATABASES['default']['PASSWORD']=os.environ.get('DATABASE_PASSWORD')
 DATABASES['default']['HOST']=os.environ.get('DATABASE_HOST')
 DATABASES['default']['PORT']=os.environ.get('DATABASE_PORT')
 
-ALLOWED_HOSTS = ['93.188.161.11','*']
+ALLOWED_HOSTS = ['93.188.161.11']
 
-DEBUG=True
+DEBUG=False
