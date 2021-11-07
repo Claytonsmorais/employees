@@ -27,7 +27,7 @@ from rest_framework_jwt.views import obtain_jwt_token,refresh_jwt_token
 urlpatterns = [
     re_path(r'admin\/?', admin.site.urls),
     re_path(r'api-auth\/?', include('rest_framework.urls')),
-    re_path('', APIRootView.as_view()),
+    re_path('\/?', APIRootView.as_view()),
     re_path(r'api/employees\/?', EmployeeViewSet.as_view(),name='employees-api'),
     re_path(r'api/departments/<int:pk>\/?', DepartmentDetailViewSet.as_view(),name='department-detail-api'),
     re_path(r'api/departments\/?', DepartmentViewSet.as_view(),name='departments-api'),
